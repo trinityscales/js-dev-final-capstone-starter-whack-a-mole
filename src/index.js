@@ -157,8 +157,8 @@ function toggleVisibility(hole){
 *
 */
 function updateScore() {
-  // TODO: Write your code here
-
+  points++;
+  score.textContent = points;
   return points;
 }
 
@@ -170,9 +170,8 @@ function updateScore() {
 *
 */
 function clearScore() {
-  // TODO: Write your code here
-  // points = 0;
-  // score.textContent = points;
+  points = 0;
+  score.textContent = points;
   return points;
 }
 
@@ -209,8 +208,8 @@ function startTimer() {
 *
 */
 function whack(event) {
-  // TODO: Write your code here.
-  // call updateScore()
+  playAudio(audioHit);
+  updateScore();
   return points;
 }
 
@@ -220,8 +219,9 @@ function whack(event) {
 * for an example on how to set event listeners using a for loop.
 */
 function setEventListeners(){
-  // TODO: Write your code here
-
+  moles.forEach(
+    mole => mole.addEventListener('click', whack)
+  );
   return moles;
 }
 
@@ -243,7 +243,7 @@ function setDuration(duration) {
 *
 */
 function stopGame(){
-  // stopAudio(song);  //optional
+  stopAudio(song);
   clearInterval(timer);
   return "game stopped";
 }
@@ -260,11 +260,27 @@ function startGame(){
   setEventListeners();
   startTimer();
   showUp();
+  loopAudio(song);
   return "game started";
 }
 
 startButton.addEventListener("click", startGame);
 
+// Audio implementation
+
+const audioHit = new Audio("https://github.com/gabrielsanchez/erddiagram/blob/main/hit.mp3?raw=true");
+const song = new Audio("https://github.com/gabrielsanchez/erddiagram/blob/main/molesong.mp3?raw=true");
+
+function playAudio(audioObject) {
+  audioObject.play();
+}
+function loopAudio(audioObject) {
+  audioObject.loop = true;
+  playAudio(audioObject);
+}
+function stopAudio(audioObject) {
+  audioObject.pause();
+}
 
 // Please do not modify the code below.
 // Used for testing purposes.
